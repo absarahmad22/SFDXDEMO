@@ -67,6 +67,9 @@ node {
             /*Step-1: Authorize DevHub Org*/
 
 			stage('Authorize DevHub') {
+
+                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:org:list"
+
                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:auth:jwt:grant --instanceurl ${SF_INSTANCE_URL} --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${jwt_key_file}\" --setdefaultdevhubusername --setalias HubOrg";
                 if (rc != 0) {
                     error 'Salesforce dev hub org authorization failed.'
