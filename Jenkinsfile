@@ -83,11 +83,22 @@ node {
             /*Step 2 Create Scratch Org*/
 
             stage('Create Test Scratch Org') {
+
                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:org:create --targetdevhubusername HubOrg --setdefaultusername --definitionfile config/project-scratch-def.json --setalias ciorg --wait 10 --durationdays 1"
                 if (rc != 0) {
                     error 'Salesforce test scratch org creation failed.'
                 }
             }
+
+            /*Stage 3 Delete Scratch Org*/
+
+             stage('Delete Test Scratch Org') {
+                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:org:delete --targetusername ciorg --noprompt"
+                if (rc != 0) {
+                    error 'Salesforce test scratch org deletion failed.'
+                }
+            }
+
 
 		
 		
