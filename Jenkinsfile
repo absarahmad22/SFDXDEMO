@@ -93,8 +93,8 @@ def command(script) {
     print isUnix();
 
     if (isUnix()) {
-        return "sh  returnStatus: true, script: ${script}";
+        return sh  returnStatus: true, script: ${script};
     } else {
-        return "bat returnStatus: true, script: ${script}";
+        return bat returnStatus: true, script: ${script};
     }
 }
