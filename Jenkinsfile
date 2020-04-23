@@ -60,12 +60,16 @@ node {
     // -------------------------------------------------------------------------
 
 	
-//	withEnv(["HOME=${env.WORKSPACE}"]) {
+	withEnv(["HOME=${env.WORKSPACE}"]) {
 		
 		withCredentials([file(credentialsId: SERVER_KEY_CREDENTALS_ID, variable: 'jwt_key_file')]) {
-		
+            
+            /*Step-1: Authorize DevHub Org*/
+
 			 stage('Authorize DevHub') {
-                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:auth:jwt:grant --instanceurl ${SF_INSTANCE_URL} --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile ${jwt_key_file} --setdefaultdevhubusername --setalias HubOrg"
+                rc = command "\"${toolbelt}\"/sfdx force:auth:jwt:grant --instanceurl ${SF_INSTANCE_URL} --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile ${server_key_file} --setdefaultdevhubusername --setalias HubOrg"
+                
+            //    rc = bat returnStatus: true, script: "\"${toolbelt}\" force:auth:jwt:grant --instanceurl ${SF_INSTANCE_URL} --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile ${jwt_key_file} --setdefaultdevhubusername --setalias HubOrg"
                 if (rc != 0) {
                     error 'Salesforce dev hub org authorization failed.'
                 }
@@ -73,15 +77,15 @@ node {
 		
 		
 		}
-	
-//	}
+	}
 	
 }
 
+
 def command(script) {
     if (isUnix()) {
-        return sh(returnStatus: true, script: script);
+        return "sh  returnStatus: true, script: ${script}";
     } else {
-        return bat(returnStatus: true, script: script);
+        return "bat returnStatus: true, script: ${script}";
     }
 }
