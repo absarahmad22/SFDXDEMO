@@ -6,7 +6,11 @@ public class ContactControllerTest {
         Contact con = new Contact(LastName='Joun Doe',AccountId =acc.Id);
         Insert con;
         
-        ContactController.getContactList();
+        List<Contact> contactList = ContactController.getContactList();
+		
+		System.debug('hello world');
+		
+		System.assertEquals(1,contactList.size());
         
     }
 }

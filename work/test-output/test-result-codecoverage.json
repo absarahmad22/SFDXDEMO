@@ -1,0 +1,13 @@
+[
+    {
+        "id": "01p0p000001nwg2AAA",
+        "name": "ContactController",
+        "totalLines": 2,
+        "lines": {
+            "4": 1,
+            "5": 1
+        },
+        "totalCovered": 2,
+        "coveredPercent": 100
+    }
+]

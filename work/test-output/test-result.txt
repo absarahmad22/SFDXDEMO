@@ -1,0 +1,41 @@
+=== [94mTest Reports[39m
+FORMAT  FILE
+──────  ──────────────────────────────────────────────────────
+txt     work\test-output\test-result.txt
+txt     work\test-output\test-run-id.txt
+junit   work\test-output\test-result-7070p00000ETOnz-junit.xml
+json    work\test-output\test-result-7070p00000ETOnz.json
+json    work\test-output\test-result-codecoverage.json
+
+=== [94mApex Code Coverage[39m
+ID                  NAME               % COVERED  UNCOVERED LINES
+──────────────────  ─────────────────  ─────────  ───────────────
+01p0p000001nwg2AAA  ContactController  [32m100%[39m
+
+=== [94mTest Results[39m
+TEST NAME                       OUTCOME  MESSAGE  RUNTIME (MS)
+──────────────────────────────  ───────  ───────  ────────────
+ContactControllerTest.test_one  [32mPass[39m              238
+
+=== [94mTest Summary[39m
+NAME                 VALUE
+───────────────────  ─────────────────────────────────────────────────────────────
+Outcome              Passed
+Tests Ran            1
+Passing              1
+Failing              0
+Skipped              0
+Pass Rate            100%
+Fail Rate            0%
+Test Start Time      Apr 23, 2020 11:56 AM
+Test Execution Time  238 ms
+Test Total Time      238 ms
+Command Time         10611 ms
+Hostname             https://inspiration-page-4625-dev-ed.cs74.my.salesforce.com/
+Org Id               00D0p0000000YwzEAE
+Username             test-mjyygb13eet2@example.com
+Test Run Id          7070p00000ETOnz
+User Id              0050p000001n5BrAAI
+Test Run Coverage    100%
+Org Wide Coverage    100%
+
