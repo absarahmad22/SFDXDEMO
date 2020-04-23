@@ -66,12 +66,23 @@ node {
             
             /*Step-1: Authorize DevHub Org*/
 
-			 stage('Authorize DevHub') {
+			stage('Authorize DevHub') {
                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:auth:jwt:grant --instanceurl ${SF_INSTANCE_URL} --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${jwt_key_file}\" --setdefaultdevhubusername --setalias HubOrg";
                 if (rc != 0) {
                     error 'Salesforce dev hub org authorization failed.'
                 }
             }
+
+
+            /*Step 2 Create Scratch Org*/
+
+            stage('Create Test Scratch Org') {
+                rc = bat returnStatus: true, script: "\"${toolbelt}\"  force:org:create --targetdevhubusername HubOrg --setdefaultusername --definitionfile config/project-scratch-def.json --setalias ciorg --wait 10 --durationdays 1"
+                if (rc != 0) {
+                    error 'Salesforce test scratch org creation failed.'
+                }
+            }
+
 		
 		
 		}
