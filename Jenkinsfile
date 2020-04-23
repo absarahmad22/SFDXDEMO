@@ -18,10 +18,44 @@ node {
     // -------------------------------------------------------------------------
     // Check out code from source control.
     // -------------------------------------------------------------------------
+	
+	println 'printing information of env variable'
+	
+	print 'SF_CONSUMER_KEY :'
+	
+	println SF_CONSUMER_KEY
+	
+	print 'SF_CONSUMER_KEY :'
+	
+	println SF_CONSUMER_KEY
+	
+	print 'SF_USERNAME :'
+	
+	println SF_USERNAME
+	
+	print 'SERVER_KEY_CREDENTALS_ID :'
+	
+	println SERVER_KEY_CREDENTALS_ID
+	
+	print 'TEST_LEVEL :'
+	
+	println TEST_LEVEL
+	
+	print 'PACKAGE_NAME:'
+	
+	println PACKAGE_NAME
+	
+	print 'SF_INSTANCE_URL :'
+	
+	println SF_INSTANCE_URL
+
+
 
     stage('checkout source') {
         checkout scm
     }
+	
+	println 'after checkout source:'
 
 
     // -------------------------------------------------------------------------
