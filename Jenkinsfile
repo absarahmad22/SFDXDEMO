@@ -71,6 +71,7 @@ node {
                 if (rc != 0) {
                     error 'Salesforce dev hub org authorization failed.'
                 }
+                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:org:list"
             }
 
 
