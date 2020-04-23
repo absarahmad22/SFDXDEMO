@@ -87,6 +87,11 @@ node {
 
 
 def command(script) {
+
+    print 'command';
+
+    print isUnix();
+
     if (isUnix()) {
         return "sh  returnStatus: true, script: ${script}";
     } else {
