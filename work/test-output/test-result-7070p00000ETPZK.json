@@ -1,0 +1,104 @@
+{
+    "summary": {
+        "outcome": "Passed",
+        "testsRan": 1,
+        "passing": 1,
+        "failing": 0,
+        "skipped": 0,
+        "passRate": "100%",
+        "failRate": "0%",
+        "testStartTime": "Apr 23, 2020 12:18 PM",
+        "testExecutionTime": "241 ms",
+        "testTotalTime": "241 ms",
+        "commandTime": "32559 ms",
+        "hostname": "https://inspiration-page-4625-dev-ed.cs74.my.salesforce.com/",
+        "orgId": "00D0p0000000YwzEAE",
+        "username": "test-mjyygb13eet2@example.com",
+        "testRunId": "7070p00000ETPZK",
+        "userId": "0050p000001n5BrAAI",
+        "testRunCoverage": "100%",
+        "orgWideCoverage": "100%"
+    },
+    "tests": [
+        {
+            "attributes": {
+                "type": "ApexTestResult",
+                "url": "/services/data/v48.0/tooling/sobjects/ApexTestResult/07M0p0000025AsuEAE"
+            },
+            "Id": "07M0p0000025AsuEAE",
+            "QueueItemId": "7090p0000002qCpAAI",
+            "StackTrace": null,
+            "Message": null,
+            "AsyncApexJobId": "7070p00000ETPZKAA5",
+            "MethodName": "test_one",
+            "Outcome": "Pass",
+            "ApexClass": {
+                "attributes": {
+                    "type": "ApexClass",
+                    "url": "/services/data/v48.0/tooling/sobjects/ApexClass/01p0p000001nwg3AAA"
+                },
+                "Id": "01p0p000001nwg3AAA",
+                "Name": "ContactControllerTest",
+                "NamespacePrefix": null
+            },
+            "RunTime": 241,
+            "FullName": "ContactControllerTest.test_one",
+            "height": 1
+        }
+    ],
+    "coverage": {
+        "coverage": [
+            {
+                "id": "01p0p000001nwg2AAA",
+                "name": "ContactController",
+                "totalLines": 2,
+                "lines": {
+                    "4": 1,
+                    "5": 1
+                },
+                "totalCovered": 2,
+                "coveredPercent": 100
+            }
+        ],
+        "records": [
+            {
+                "attributes": {
+                    "type": "ApexCodeCoverage",
+                    "url": "/services/data/v48.0/tooling/sobjects/ApexCodeCoverage/7140p00000CLYdrAAH"
+                },
+                "ApexTestClass": {
+                    "attributes": {
+                        "type": "ApexClass",
+                        "url": "/services/data/v48.0/tooling/sobjects/ApexClass/01p0p000001nwg3AAA"
+                    },
+                    "Id": "01p0p000001nwg3AAA",
+                    "Name": "ContactControllerTest"
+                },
+                "Coverage": {
+                    "coveredLines": [
+                        4,
+                        5
+                    ],
+                    "uncoveredLines": []
+                },
+                "TestMethodName": "test_one",
+                "NumLinesCovered": 2,
+                "ApexClassOrTrigger": {
+                    "attributes": {
+                        "type": "Name",
+                        "url": "/services/data/v48.0/tooling/sobjects/ApexClass/01p0p000001nwg2AAA"
+                    },
+                    "Id": "01p0p000001nwg2AAA",
+                    "Name": "ContactController"
+                },
+                "NumLinesUncovered": 0
+            }
+        ],
+        "summary": {
+            "totalLines": 2,
+            "coveredLines": 2,
+            "testRunCoverage": "100%",
+            "orgWideCoverage": "100%"
+        }
+    }
+}

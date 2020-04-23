@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+    <testsuite name="force.apex" timestamp="2020-04-23T12:18:02+05:30" hostname="https://inspiration-page-4625-dev-ed.cs74.my.salesforce.com/" tests="1" failures="0"  errors="0"  time="0.24">
+        <properties>
+            <property name="outcome" value="Passed"/>
+            <property name="testsRan" value="1"/>
+            <property name="passing" value="1"/>
+            <property name="failing" value="0"/>
+            <property name="skipped" value="0"/>
+            <property name="passRate" value="100%"/>
+            <property name="failRate" value="0%"/>
+            <property name="testStartTime" value="Apr 23, 2020 12:18 PM"/>
+            <property name="testExecutionTime" value="0.24 s"/>
+            <property name="testTotalTime" value="0.24 s"/>
+            <property name="commandTime" value="32.56 s"/>
+            <property name="hostname" value="https://inspiration-page-4625-dev-ed.cs74.my.salesforce.com/"/>
+            <property name="orgId" value="00D0p0000000YwzEAE"/>
+            <property name="username" value="test-mjyygb13eet2@example.com"/>
+            <property name="testRunId" value="7070p00000ETPZK"/>
+            <property name="userId" value="0050p000001n5BrAAI"/>
+            <property name="testRunCoverage" value="100%"/>
+            <property name="orgWideCoverage" value="100%"/>
+        </properties>
+        <testcase name="test_one" classname="ContactControllerTest" time="0.24">
+        </testcase>
+    </testsuite>
+</testsuites>
