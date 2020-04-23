@@ -61,7 +61,7 @@ node {
 	
 	print 'Command :'
 	
-	print command 'absar ahmad'
+	print command('absar ahmad')
 	
 	withEnv(["HOME=${env.WORKSPACE}"]) {
 		
