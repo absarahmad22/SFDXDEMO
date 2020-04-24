@@ -11,6 +11,8 @@ public class ContactControllerTest {
         System.debug('hello world');
         
         System.debug('Convert form source to metadata then deploy to the destination org');
+
+        System.debug('Again commited form other devices');
 		
 		System.assertEquals(1,contactList.size());
         
