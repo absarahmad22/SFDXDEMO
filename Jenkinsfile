@@ -103,12 +103,11 @@ node {
             /*Stage 4 Run Unit Testing Scratch Org*/
 
             stage('Run Tests In Test Scratch Org') {
-                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:apex:test:run --targetusername ciorg --wait 10 --resultformat tap --codecoverage --testlevel ${TEST_LEVEL}"
+                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:apex:test:run --targetusername ciorg --wait 10 -r human --resultformat tap --codecoverage --testlevel ${TEST_LEVEL}"
                 if (rc != 0) {
                     error 'Salesforce unit test run in test scratch org failed.'
                 }
             }
-
 
             /*Stage 5 Delete Scratch Org*/
 
