@@ -118,10 +118,29 @@ node {
                 }
             }
 
+
+            /* Convert to the Org Metadata*/
+
+            stage('Convert to Org Metadata'){
+                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:source:convert -r force-app -d import/force-app"
+                if (rc != 0) {
+                    error 'Salesforce test scratch org deletion failed.'
+                }
+            }
+
             /*Stage 6 Deploy Code to Org*/
 
             stage('Deploy Code'){
-                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:mdapi:deploy -d manifest\"package.xml -u ${SF_USERNAME}"
+                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:mdapi:deploy -d import/force-app/. -u ${SF_USERNAME}"
+                if (rc != 0) {
+                    error 'Salesforce test scratch org deletion failed.'
+                }
+            }
+
+             /*Stage 6 Deployement Status in Org*/
+
+             stage('Deploy Code'){
+                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:mdapi:deploy:report -u ${SF_USERNAME}"
                 if (rc != 0) {
                     error 'Salesforce test scratch org deletion failed.'
                 }
