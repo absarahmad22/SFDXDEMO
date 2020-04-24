@@ -139,7 +139,7 @@ node {
 
              /*Stage 6 Deployement Status in Org*/
 
-             stage('Deploy Code'){
+             stage('Deploy Status Report'){
                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:mdapi:deploy:report -u ${SF_USERNAME}"
                 if (rc != 0) {
                     error 'Salesforce test scratch org deletion failed.'
