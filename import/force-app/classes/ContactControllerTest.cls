@@ -8,9 +8,7 @@ public class ContactControllerTest {
         
         List<Contact> contactList = ContactController.getContactList();
 		
-        System.debug('hello world');
-        
-        System.debug('Convert form source to metadata then deploy to the destination org');
+		System.debug('hello world');
 		
 		System.assertEquals(1,contactList.size());
         
