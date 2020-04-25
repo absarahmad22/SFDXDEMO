@@ -10,7 +10,9 @@ node {
     def TEST_LEVEL               ="RunLocalTests";
     def SF_INSTANCE_URL          ="https://login.salesforce.com";
 
-    def toolbelt = tool 'toolbelt'
+    def toolbelt = tool 'toolbelt';
+    def jsonSlurper = new JsonSlurperClassic();
+    def response;
 
 
     // -------------------------------------------------------------------------
@@ -105,11 +107,42 @@ node {
             
             /*Step:5 Run Unit Testing Scratch Org*/
 
-            stage('Run Tests In Test Scratch Org') {
-                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:apex:test:run --targetusername ${SF_USERNAME} --wait 10 -r human --resultformat tap --codecoverage --testlevel ${TEST_LEVEL}"
+            stage('Run Tests In Partial Copy Org') {
+                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:apex:test:run --targetusername ${SF_USERNAME} --wait 10 -r human --resultformat tap --codecoverage --testlevel ${TEST_LEVEL} --json"
                 if (rc != 0) {
                     error 'Salesforce unit test run in test scratch org failed.'
                 }
+            }
+            
+            response = jsonSlurper.parseText(rc);
+
+            def runId = response.result.testRunId;
+
+            response = null;
+
+            print "run Id ${runId}";
+
+
+
+            /*Step:6 Report of test */
+
+            stage('Run Tests In Partial Copy Org') {
+                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:apex:test:report --targetusername ${SF_USERNAME} -i ${runId} --wait 10 -r human --json"
+                if (rc != 0) {
+                    error 'Salesforce unit test run in test scratch org failed.';
+                }
+            }
+
+            response = jsonSlurper.parseText(rc);
+
+            def outcome = response.result.summary.outcome;
+            def passRate = response.result.summary.passRate;
+            def failRate = response.result.summary.failRate;
+
+            if(outcome == 'Failed'){
+                print "Unit testing not completed please do the test again \n Pass Rate = ${passRate} \n Fail Rate = ${failRate}";
+            }else{
+                print "Unit Testing is successfully completed with the Pass Rate = ${passRate} \n Fail Rate = ${failRate}";
             }
 
 
