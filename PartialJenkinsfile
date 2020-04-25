@@ -71,7 +71,7 @@ node {
                 if (rc != 0) {
                     error 'Salesforce dev hub org authorization failed.'
                 }
-                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:org:list"
+                //rc = bat returnStatus: true, script: "\"${toolbelt}\" force:org:list"
             }
 
 
@@ -109,7 +109,7 @@ node {
             stage('Run Tests In Partial Copy Org') {
                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:apex:test:run --targetusername ${SF_USERNAME} --wait 10 -r human --resultformat tap --codecoverage --testlevel ${TEST_LEVEL} --json"
                 if (rc != 0) {
-                    error 'Salesforce unit test run in test scratch org failed.'
+                  //  error 'Salesforce unit test run in test scratch org failed.'
                 }
             }
 
@@ -130,7 +130,7 @@ node {
             /*Step:6 Report of test */
 
             stage('Run Tests In Partial Copy Org') {
-                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:apex:test:report --targetusername ${SF_USERNAME} -i ${runId} --wait 10 -r human --json"
+                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:apex:test:report --targetusername ${SF_USERNAME} -i ${runId} --wait 10 -r human --json --codecoverage"
                 if (rc != 0) {
                     error 'Salesforce unit test run in test scratch org failed.';
                 }
@@ -143,7 +143,7 @@ node {
             def failRate = response.result.summary.failRate;
 
             if(outcome == 'Failed'){
-                print "Unit testing not completed please do the test again \n Pass Rate = ${passRate} \n Fail Rate = ${failRate}";
+                error "Unit testing not completed please do the test again \n Pass Rate = ${passRate} \n Fail Rate = ${failRate}";
             }else{
                 print "Unit Testing is successfully completed with the Pass Rate = ${passRate} \n Fail Rate = ${failRate}";
             }
