@@ -130,13 +130,13 @@ node {
             /*Step:6 Report of test */
 
             stage('Run Tests In Partial Copy Org') {
-                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:apex:test:report --targetusername ${SF_USERNAME} -i ${runId} --wait 10 -r human --json --codecoverage"
-                if (rc != 0) {
+                output = bat returnStatus: true, script: "\"${toolbelt}\" force:apex:test:report --targetusername ${SF_USERNAME} -i ${runId} --wait 10 -r human --json --codecoverage"
+                if (output != 0) {
                     error 'Salesforce unit test run in test scratch org failed.';
                 }
             }
 
-            response = jsonSlurper.parseText(rc);
+            response = jsonSlurper.parseText(output);
 
             def outcome = response.result.summary.outcome;
             def passRate = response.result.summary.passRate;
