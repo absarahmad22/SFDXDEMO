@@ -111,6 +111,7 @@ node {
                 if (rc != 0) {
                   //  error 'Salesforce unit test run in test scratch org failed.'
                 }
+                rc = rc.readLines().drop(1).join(" ")
             }
 
             def jsonSlurper = new JsonSlurperClassic();
