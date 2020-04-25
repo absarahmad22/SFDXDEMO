@@ -12,7 +12,7 @@ public class ContactControllerTest {
         
         System.debug('Convert form source to metadata then deploy to the destination org');
 
-        System.debug('Again commited form other devices');
+        System.debug('Himanshu Kommit');
 		
 		System.assertEquals(1,contactList.size());
         
