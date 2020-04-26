@@ -64,7 +64,7 @@ node {
 
             /*Step:3 Deploy Code to Org*/
 
-            stage("Deploy Code"){
+            stage("Deploy Code to target org"){
                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:mdapi:deploy -d import/force-app/. -u ${SF_USERNAME}"
                 if (rc != 0) {
                     error "Salesforce deployment failed in the org."
@@ -73,7 +73,7 @@ node {
 
              /*Step:4 Deployement Status in Org*/
 
-             stage("Deploy Status Report"){
+             stage("Deployment Status Report"){
                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:mdapi:deploy:report -u ${SF_USERNAME}"
                 if (rc != 0) {
                     error "Salesforce test scratch org deletion failed."
@@ -83,15 +83,14 @@ node {
             
             /*Step:5 Run Unit Testing the Org*/
 
-            stage("Run Tests In Partial Copy Org") {
+            /*stage("Run Tests In Org") {
                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:apex:test:run --targetusername ${SF_USERNAME} --wait 10 -r human --resultformat tap --codecoverage --testlevel ${TEST_LEVEL}"
                 if (rc != 0) {
                    error "Salesforce unit test run in test scratch org failed."
                 }
-            }
+            }*/
 
-
-            stage("Run Test In Partial Org with information"){
+            stage("Run Test in Org with information"){
                 rmsg = commandOutput "\"${toolbelt}\" force:apex:test:run --targetusername ${SF_USERNAME} --wait 10 -r human --resultformat tap --codecoverage --testlevel ${TEST_LEVEL} --json";
             }
 
@@ -100,7 +99,7 @@ node {
             println "Test Run Id :${runId}";
 
             /*Step:6 Report of test */
-            stage("Run Tests In Partial Copy Org") {
+            stage("Test Report in Org") {
                 rmsg = commandOutput "\"${toolbelt}\" force:apex:test:report --targetusername ${SF_USERNAME} -i ${runId} --wait 10 -r human --codecoverage --json"
             }
 
