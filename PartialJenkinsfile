@@ -96,7 +96,7 @@ node {
                 println rmsg;
             }
 
-            def runId = rmsg.result.testRunId;
+            def runId = rmsg.result.summary.testRunId;
 
             println "Test Run Id :${runId}";
 
