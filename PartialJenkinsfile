@@ -41,11 +41,11 @@ node {
 
 			stage("Authorize Org") {
 
-                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:org:list"
+                rc = command  "\"${toolbelt}\" force:org:list"
 
-                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:auth:logout -u ${SF_USERNAME} -p"
+                rc = command  "\"${toolbelt}\" force:auth:logout -u ${SF_USERNAME} -p"
 
-                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:auth:jwt:grant --instanceurl ${SF_INSTANCE_URL} --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${jwt_key_file}\" --setdefaultdevhubusername --setalias HubOrg";
+                rc = command  "\"${toolbelt}\" force:auth:jwt:grant --instanceurl ${SF_INSTANCE_URL} --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${jwt_key_file}\" --setdefaultdevhubusername --setalias HubOrg";
                 if (rc != 0) {
                     error "Salesforce authorization failed."
                 }
@@ -124,3 +124,12 @@ node {
 		}
 	}
 }
+
+def command(script) {
+    if (isUnix()) {
+        return sh(returnStatus: true, script: script);
+    } else {
+        return bat(returnStatus: true, script: script);
+    }
+}
+
