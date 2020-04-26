@@ -92,7 +92,7 @@ node {
 
 
             stage("Run Test In Partial Org with information"){
-                rmsg = commandOutput "\"${toolbelt}\" force:apex:test:run --targetusername ${SF_USERNAME} --wait 10 -r human --resultformat tap --codecoverage --testlevel ${TEST_LEVEL}";
+                rmsg = commandOutput "\"${toolbelt}\" force:apex:test:run --targetusername ${SF_USERNAME} --wait 10 -r human --resultformat tap --codecoverage --testlevel ${TEST_LEVEL} --json";
                 println rmsg;
             }
 
