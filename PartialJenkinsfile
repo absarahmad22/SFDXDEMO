@@ -104,9 +104,9 @@ node {
                 rmsg = commandOutput "\"${toolbelt}\" force:apex:test:report --targetusername ${SF_USERNAME} -i ${runId} --wait 10 -r human --codecoverage --json"
             }
 
-            def outcome = response.result.summary.outcome;
-            def passRate = response.result.summary.passRate;
-            def failRate = response.result.summary.failRate;
+            def outcome = rmsg.result.summary.outcome;
+            def passRate = rmsg.result.summary.passRate;
+            def failRate = rmsg.result.summary.failRate;
 
             if(outcome == "Failed"){
                 error "Unit testing not completed please do the test again \n Pass Rate = ${passRate} \n Fail Rate = ${failRate}";
