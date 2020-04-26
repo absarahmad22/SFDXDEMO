@@ -41,9 +41,9 @@ node {
 
 			stage("Authorize Org") {
 
-     //           rc = command  "\"${toolbelt}\" force:org:list"
+               rc = command  "\"${toolbelt}\" force:org:list"
 
-       //         rc = command  "\"${toolbelt}\" force:auth:logout -u ${SF_USERNAME} -p"
+               rc = command  "\"${toolbelt}\" force:auth:logout -u ${SF_USERNAME} -p"
 
                 rc = command  "\"${toolbelt}\" force:auth:jwt:grant --instanceurl ${SF_INSTANCE_URL} --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${jwt_key_file}\" --setdefaultdevhubusername --setalias HubOrg";
                 if (rc != 0) {
@@ -53,42 +53,42 @@ node {
 
 
             
-            // /* Step:2 Convert to the Org Metadata*/
+            /* Step:2 Convert to the Org Metadata*/
 
-            // stage("Convert to Org Metadata"){
-            //      rc = bat returnStatus: true, script: "\"${toolbelt}\" force:source:convert -r force-app -d import/force-app"
-            //     if (rc != 0) {
-            //         error "Convert source code to metadata failed."
-            //     }
-            // }
+            stage("Convert to Org Metadata"){
+                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:source:convert -r force-app -d import/force-app"
+                if (rc != 0) {
+                    error "Convert source code to metadata failed."
+                }
+            }
 
-            // /*Step:3 Deploy Code to Org*/
+            /*Step:3 Deploy Code to Org*/
 
-            // stage("Deploy Code"){
-            //     rc = bat returnStatus: true, script: "\"${toolbelt}\" force:mdapi:deploy -d import/force-app/. -u ${SF_USERNAME}"
-            //     if (rc != 0) {
-            //         error "Salesforce deployment failed in the org."
-            //     }
-            // }
+            stage("Deploy Code"){
+                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:mdapi:deploy -d import/force-app/. -u ${SF_USERNAME}"
+                if (rc != 0) {
+                    error "Salesforce deployment failed in the org."
+                }
+            }
 
-            //  /*Step:4 Deployement Status in Org*/
+             /*Step:4 Deployement Status in Org*/
 
-            //  stage("Deploy Status Report"){
-            //     rc = bat returnStatus: true, script: "\"${toolbelt}\" force:mdapi:deploy:report -u ${SF_USERNAME}"
-            //     if (rc != 0) {
-            //         error "Salesforce test scratch org deletion failed."
-            //     }
-            // }
+             stage("Deploy Status Report"){
+                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:mdapi:deploy:report -u ${SF_USERNAME}"
+                if (rc != 0) {
+                    error "Salesforce test scratch org deletion failed."
+                }
+            }
 
             
-            // /*Step:5 Run Unit Testing the Org*/
+            /*Step:5 Run Unit Testing the Org*/
 
-            // stage("Run Tests In Partial Copy Org") {
-            //     rc = bat returnStatus: true, script: "\"${toolbelt}\" force:apex:test:run --targetusername ${SF_USERNAME} --wait 10 -r human --resultformat tap --codecoverage --testlevel ${TEST_LEVEL}"
-            //     if (rc != 0) {
-            //        error "Salesforce unit test run in test scratch org failed."
-            //     }
-            // }
+            stage("Run Tests In Partial Copy Org") {
+                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:apex:test:run --targetusername ${SF_USERNAME} --wait 10 -r human --resultformat tap --codecoverage --testlevel ${TEST_LEVEL}"
+                if (rc != 0) {
+                   error "Salesforce unit test run in test scratch org failed."
+                }
+            }
 
 
             stage("Run Test In Partial Org with information"){
@@ -113,7 +113,6 @@ node {
             }else{
                 print "Unit Testing is successfully completed with the Pass Rate = ${passRate} \n Fail Rate = ${failRate} \n outcome = ${outcome}";
             }
-            
 		}
 	}
 }
