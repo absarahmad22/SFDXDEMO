@@ -10,7 +10,7 @@ node {
     def TEST_LEVEL               ="RunLocalTests";
     def SF_INSTANCE_URL          ="https://login.salesforce.com";
 
-    def toolbelt = tool 'toolbelt';
+    def toolbelt = tool "toolbelt";
 
 
 
@@ -18,35 +18,18 @@ node {
     // Check out code from source control.
     // -------------------------------------------------------------------------
 	
-	println 'printing information of env variable'
-	
-	print 'SF_CONSUMER_KEY :'
-	
-	println SF_CONSUMER_KEY
-	
-	print 'SF_USERNAME :'
-	
-	println SF_USERNAME
-	
-	print 'SERVER_KEY_CREDENTALS_ID :'
-	
-	println SERVER_KEY_CREDENTALS_ID
-	
-	print 'TEST_LEVEL :'
-	
-	println TEST_LEVEL
-	
-	print 'SF_INSTANCE_URL :'
-	
-	println SF_INSTANCE_URL
+	println "printing information of env variable";
+	print "SF_CONSUMER_KEY :${SF_CONSUMER_KEY}";
+	print "SF_USERNAME :${SF_USERNAME}";
+	print "SERVER_KEY_CREDENTALS_ID :${SERVER_KEY_CREDENTALS_ID}";
+	print "TEST_LEVEL :${TEST_LEVEL}";
+	print "SF_INSTANCE_URL :${SF_INSTANCE_URL}";
 
-
-
-    stage('checkout source') {
+    stage("checkout source") {
         checkout scm
     }
 	
-	println 'after checkout source:'
+	println "after checkout source:"
 
 
     // -------------------------------------------------------------------------
@@ -57,11 +40,11 @@ node {
 	
 	withEnv(["HOME=${env.WORKSPACE}"]) {
 		
-		withCredentials([file(credentialsId: SERVER_KEY_CREDENTALS_ID, variable: 'jwt_key_file')]) {
+		withCredentials([file(credentialsId: SERVER_KEY_CREDENTALS_ID, variable: "jwt_key_file")]) {
             
-            /*Step-1: Authorize DevHub Org*/
+            /*Step-1: Authorize Org*/
 
-			stage('Authorize DevHub') {
+			stage("Authorize Org") {
 
                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:org:list"
 
@@ -69,47 +52,46 @@ node {
 
                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:auth:jwt:grant --instanceurl ${SF_INSTANCE_URL} --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${jwt_key_file}\" --setdefaultdevhubusername --setalias HubOrg";
                 if (rc != 0) {
-                    error 'Salesforce dev hub org authorization failed.'
+                    error "Salesforce authorization failed."
                 }
-                //rc = bat returnStatus: true, script: "\"${toolbelt}\" force:org:list"
             }
 
 
             
             /* Step:2 Convert to the Org Metadata*/
 
-            stage('Convert to Org Metadata'){
+            stage("Convert to Org Metadata"){
                  rc = bat returnStatus: true, script: "\"${toolbelt}\" force:source:convert -r force-app -d import/force-app"
                 if (rc != 0) {
-                    error 'Salesforce test scratch org deletion failed.'
+                    error "Convert source code to metadata failed."
                 }
             }
 
             /*Step:3 Deploy Code to Org*/
 
-            stage('Deploy Code'){
+            stage("Deploy Code"){
                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:mdapi:deploy -d import/force-app/. -u ${SF_USERNAME}"
                 if (rc != 0) {
-                    error 'Salesforce test scratch org deletion failed.'
+                    error "Salesforce deployment failed in the org."
                 }
             }
 
              /*Step:4 Deployement Status in Org*/
 
-             stage('Deploy Status Report'){
+             stage("Deploy Status Report"){
                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:mdapi:deploy:report -u ${SF_USERNAME}"
                 if (rc != 0) {
-                    error 'Salesforce test scratch org deletion failed.'
+                    error "Salesforce test scratch org deletion failed."
                 }
             }
 
             
-            /*Step:5 Run Unit Testing Scratch Org*/
+            /*Step:5 Run Unit Testing the Org*/
 
-            stage('Run Tests In Partial Copy Org') {
+            stage("Run Tests In Partial Copy Org") {
                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:apex:test:run --targetusername ${SF_USERNAME} --wait 10 -r human --resultformat tap --codecoverage --testlevel ${TEST_LEVEL}"
                 if (rc != 0) {
-                   error 'Salesforce unit test run in test scratch org failed.'
+                   error "Salesforce unit test run in test scratch org failed."
                 }
             }
 
@@ -125,10 +107,10 @@ node {
 
             /*Step:6 Report of test */
             /*
-            stage('Run Tests In Partial Copy Org') {
+            stage("Run Tests In Partial Copy Org") {
                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:apex:test:report --targetusername ${SF_USERNAME} -i ${runId} --wait 10 -r human --json --codecoverage"
                 if (rc != 0) {
-                    error 'Salesforce unit test run in test scratch org failed.';
+                    error "Salesforce unit test run in test scratch org failed.";
                 }
             }*/
 
@@ -138,14 +120,12 @@ node {
             def passRate = response.result.summary.passRate;
             def failRate = response.result.summary.failRate;
 
-            if(outcome == 'Failed'){
+            if(outcome == "Failed"){
                 error "Unit testing not completed please do the test again \n Pass Rate = ${passRate} \n Fail Rate = ${failRate}";
             }else{
                 print "Unit Testing is successfully completed with the Pass Rate = ${passRate} \n Fail Rate = ${failRate}";
             }
             */
-
 		}
 	}
-	
 }
