@@ -90,6 +90,16 @@ node {
                 }
             }
 
+
+            stage("Run Test In Partial Org with information"){
+                rmsg = commandOutput "\"${toolbelt}\" force:apex:test:run --targetusername ${SF_USERNAME} --wait 10 -r human --resultformat tap --codecoverage --testlevel ${TEST_LEVEL}";
+                println rmsg;
+            }
+
+            def runId = rmsg.result.testRunId;
+
+            println "Test Run Id :${runId}";
+
             /*
             def jsonSlurper = new JsonSlurperClassic();
             def response;
@@ -133,3 +143,14 @@ def command(script) {
     }
 }
 
+def commandOutput(script) {
+    if (isUnix()) {
+        rmsg =  sh(returnStdout: true, script: script);
+    } else {
+        rmsg =  bat(returnStdout: true, script: script);
+        rmsg = rmsg.readLines().drop(1).join(" ");
+    }
+    def jsonSlurper = new JsonSlurperClassic();
+    def response = jsonSlurper.parseText(rmsg);
+    return response;
+}
