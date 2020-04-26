@@ -18,34 +18,14 @@ node {
     // -------------------------------------------------------------------------
     // Check out code from source control.
     // -------------------------------------------------------------------------
-	
-	println 'printing information of env variable'
-	
-	print 'SF_CONSUMER_KEY :'
-	
-	println SF_CONSUMER_KEY
-	
-	print 'SF_USERNAME :'
-	
-	println SF_USERNAME
-	
-	print 'SERVER_KEY_CREDENTALS_ID :'
-	
-	println SERVER_KEY_CREDENTALS_ID
-	
-	print 'TEST_LEVEL :'
-	
-	println TEST_LEVEL
-	
-	print 'PACKAGE_NAME:'
-	
-	println PACKAGE_NAME
-	
-	print 'SF_INSTANCE_URL :'
-	
-	println SF_INSTANCE_URL
 
-
+    println "printing information of env variable";
+	print "SF_CONSUMER_KEY :${SF_CONSUMER_KEY}";
+	print "SF_USERNAME :${SF_USERNAME}";
+	print "SERVER_KEY_CREDENTALS_ID :${SERVER_KEY_CREDENTALS_ID}";
+	print "TEST_LEVEL :${TEST_LEVEL}";
+	print "SF_INSTANCE_URL :${SF_INSTANCE_URL}";
+    print "PACKAGE_NAME :${PACKAGE_NAME}";
 
     stage('checkout source') {
         checkout scm
@@ -114,7 +94,7 @@ node {
              stage('Delete Test Scratch Org') {
                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:org:delete --targetusername ciorg --noprompt"
                 if (rc != 0) {
-                    error 'Salesforce test scratch org deletion failed.'
+                    error 'Unable to delete the Scratch Org.'
                 }
             }
 
@@ -124,7 +104,7 @@ node {
             stage('Convert to Org Metadata'){
                  rc = bat returnStatus: true, script: "\"${toolbelt}\" force:source:convert -r force-app -d import/force-app"
                 if (rc != 0) {
-                    error 'Salesforce test scratch org deletion failed.'
+                    error 'Convert Source Code to Org Metadata failed'
                 }
             }
 
@@ -133,7 +113,7 @@ node {
             stage('Deploy Code'){
                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:mdapi:deploy -d import/force-app/. -u ${SF_USERNAME}"
                 if (rc != 0) {
-                    error 'Salesforce test scratch org deletion failed.'
+                    error 'Salesforce Code Deployment failed.'
                 }
             }
 
@@ -142,12 +122,9 @@ node {
              stage('Deploy Status Report'){
                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:mdapi:deploy:report -u ${SF_USERNAME}"
                 if (rc != 0) {
-                    error 'Salesforce test scratch org deletion failed.'
+                    error 'Unable to get the deployment status.'
                 }
-            }
-		
-
-		
+            }		
 		}
 	}
 	
