@@ -111,7 +111,7 @@ node {
             if(outcome == "Failed"){
                 error "Unit testing not completed please do the test again \n Pass Rate = ${passRate} \n Fail Rate = ${failRate}";
             }else{
-                print "Unit Testing is successfully completed with the Pass Rate = ${passRate} \n Fail Rate = ${failRate}";
+                print "Unit Testing is successfully completed with the Pass Rate = ${passRate} \n Fail Rate = ${failRate} \n outcome = ${outcome}";
             }
             
 		}
