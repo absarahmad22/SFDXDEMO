@@ -13,12 +13,7 @@ node {
     def SF_INSTANCE_URL = env.SF_INSTANCE_URL ?: "https://login.salesforce.com"
 
     def toolbelt = tool 'toolbelt'
-
-
-    // -------------------------------------------------------------------------
-    // Check out code from source control.
-    // -------------------------------------------------------------------------
-
+        
     println "printing information of env variable";
 	print "SF_CONSUMER_KEY :${SF_CONSUMER_KEY}";
 	print "SF_USERNAME :${SF_USERNAME}";
@@ -26,6 +21,10 @@ node {
 	print "TEST_LEVEL :${TEST_LEVEL}";
 	print "SF_INSTANCE_URL :${SF_INSTANCE_URL}";
     print "PACKAGE_NAME :${PACKAGE_NAME}";
+
+    // -------------------------------------------------------------------------
+    // Check out code from source control.
+    // -------------------------------------------------------------------------
 
     stage('checkout source') {
         checkout scm
