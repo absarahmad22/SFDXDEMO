@@ -150,8 +150,11 @@ def commandOutput(script) {
         rmsg =  bat(returnStdout: true, script: script);
         rmsg = rmsg.readLines().drop(1).join(" ");
     }
-    println rmsg;
+    def index = rmsg.indexOf('json') + 4;
+    def len   = rmsg.length();
+    def json  = rmsg.substring(index,len);
+    println json;
     def jsonSlurper = new JsonSlurperClassic();
-    def response = jsonSlurper.parseText(rmsg);
+    def response = jsonSlurper.parseText(json);
     return response;
 }
