@@ -107,7 +107,7 @@ node {
             /*Step:5 Run Unit Testing Scratch Org*/
 
             stage('Run Tests In Partial Copy Org') {
-                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:apex:test:run --targetusername ${SF_USERNAME} --wait 10 -r human --resultformat tap --codecoverage --testlevel ${TEST_LEVEL} --json"
+                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:apex:test:run --targetusername ${SF_USERNAME} --wait 10 -r human --resultformat tap --codecoverage --testlevel ${TEST_LEVEL}"
                 if (rc != 0) {
                    error 'Salesforce unit test run in test scratch org failed.'
                 }
@@ -124,13 +124,13 @@ node {
 
 
             /*Step:6 Report of test */
-
+            /*
             stage('Run Tests In Partial Copy Org') {
                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:apex:test:report --targetusername ${SF_USERNAME} -i ${runId} --wait 10 -r human --json --codecoverage"
                 if (rc != 0) {
                     error 'Salesforce unit test run in test scratch org failed.';
                 }
-            }
+            }*/
 
             /*            
             response = jsonSlurper.parseText(rc);
