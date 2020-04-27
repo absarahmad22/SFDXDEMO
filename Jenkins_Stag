@@ -35,20 +35,15 @@ node {
 	
 	withEnv(["HOME=${env.WORKSPACE}"]) {
 		
-		withCredentials([file(credentialsId: SERVER_KEY_CREDENTALS_ID, variable: "jwt_key_file")]) {
-            
-            /*Step-1: Authorize Org*/
-
-			stage("Authorize Org") {
-
-               rc = command  "\"${toolbelt}\" force:org:list"
-
-               rc = command  "\"${toolbelt}\" force:auth:logout -u ${SF_USERNAME} -p"
-
-                rc = command  "\"${toolbelt}\" force:auth:jwt:grant --instanceurl ${SF_INSTANCE_URL} --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${jwt_key_file}\" --setdefaultdevhubusername --setalias HubOrg";
-                if (rc != 0) {
+	withCredentials([file(credentialsId: SERVER_KEY_CREDENTALS_ID, variable: "jwt_key_file")]) {
+            	/*Step-1: Authorize Org*/
+		stage("Authorize Org") {
+              	 rc = command  "\"${toolbelt}\" force:org:list"
+              	 rc = command  "\"${toolbelt}\" force:auth:logout -u ${SF_USERNAME} -p"
+                 rc = command  "\"${toolbelt}\" force:auth:jwt:grant --instanceurl ${SF_INSTANCE_URL} --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${jwt_key_file}\" --setdefaultdevhubusername --setalias HubOrg";
+                 if (rc != 0) {
                     error "Salesforce authorization failed."
-                }
+                 }
             }
 
 
