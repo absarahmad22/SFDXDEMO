@@ -42,7 +42,7 @@ node {
 
 	print "ENV BUILD_TAG ::: ${env.BUILD_TAG}";
 	
-	def build_version = env.BUILD_NUMBER;
+	def build_directory = "build/force-app_v_${env.BUILD_NUMBER}";
 		
 	println "print QA below"
 
@@ -105,9 +105,18 @@ node {
 			
 			
 			 stage('Convert to Org Metadata'){
-                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:source:convert -r force-app -d build/force-app_v_${build_version}"
+                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:source:convert -r force-app -d ${build_directory}"
                 if (rc != 0) {
                     error 'Convert Source Code to Org Metadata failed'
+                }
+            }
+			
+			/*Stage 6 Deploy Code to Org
+
+            stage('Deploy Code'){
+                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:mdapi:deploy -d ${build_directory}/. -u ${SF_USERNAME} -w -1"
+                if (rc != 0) {
+                    error 'Salesforce Code Deployment failed.'
                 }
             }
 
@@ -163,7 +172,7 @@ node {
             /*Stage 6 Deploy Code to Org
 
             stage('Deploy Code'){
-                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:mdapi:deploy -d import/force-app/. -u ${SF_USERNAME}"
+                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:mdapi:deploy -d ${build_directory}/. -u ${SF_USERNAME} -w -1"
                 if (rc != 0) {
                     error 'Salesforce Code Deployment failed.'
                 }
