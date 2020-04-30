@@ -25,8 +25,17 @@ node {
 	println "FROM GLOBAL VARIABLE";
 	
 	println "Consumer Key ${env.SF_CONSUMER_KEY_QA}";
+	println "BUILD_QA ${env.BUILD_QA}";
 	println "SF_USERNAME evn.SF_USERNAME_QA";
 	println "SERVER_KEY_CREDENTALS_ID evn.SERVER_KEY_CREDENTALS_ID_QA";
+	
+	def BUILD_QA = env.BUILD_QA;
+	
+	print "BUILD_QA ::${BUILD_QA}";
+	
+	env.BUILD_QA = 2;
+	
+	
 	
 
     // -------------------------------------------------------------------------
