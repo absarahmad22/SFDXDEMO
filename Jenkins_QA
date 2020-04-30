@@ -42,7 +42,7 @@ node {
 
 	print "ENV BUILD_TAG ::: ${env.BUILD_TAG}";
 	
-	def build_version = ${env.BUILD_NUMBER};
+	def build_version = env.BUILD_NUMBER;
 	
 
     // -------------------------------------------------------------------------
