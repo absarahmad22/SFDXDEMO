@@ -49,18 +49,18 @@ node {
 
                // rc = bat returnStatus: true, script: "\"${toolbelt}\" force:org:list"
 
-                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:auth:logout -u ${SF_USERNAME} -p"
+         //       rc = bat returnStatus: true, script: "\"${toolbelt}\" force:auth:logout -u ${SF_USERNAME} -p"
 
                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:auth:jwt:grant --instanceurl ${SF_INSTANCE_URL} --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${jwt_key_file}\" --setdefaultdevhubusername --setalias HubOrg";
                 if (rc != 0) {
                     error 'Salesforce dev hub org authorization failed.'
                 }
-                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:org:list"
+          //      rc = bat returnStatus: true, script: "\"${toolbelt}\" force:org:list"
             }
 			
 			
 			 stage('Convert to Org Metadata'){
-                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:source:convert -r force-app -d import/force-app"
+                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:source:convert -r force-app -d build/force-app"
                 if (rc != 0) {
                     error 'Convert Source Code to Org Metadata failed'
                 }
