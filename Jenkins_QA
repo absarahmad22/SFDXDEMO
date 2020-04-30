@@ -21,6 +21,13 @@ node {
 	print "TEST_LEVEL :${TEST_LEVEL}";
 	print "SF_INSTANCE_URL :${SF_INSTANCE_URL}";
     print "PACKAGE_NAME :${PACKAGE_NAME}";
+	
+	println "FROM GLOBAL VARIABLE";
+	
+	println "Consumer Key ${evn.SF_CONSUMER_KEY_QA}";
+	println "SF_USERNAME ${evn.SF_USERNAME_QA}";
+	println "SERVER_KEY_CREDENTALS_ID ${evn.SERVER_KEY_CREDENTALS_ID_QA}";
+	
 
     // -------------------------------------------------------------------------
     // Check out code from source control.
@@ -60,7 +67,7 @@ node {
 			
 			
 			 stage('Convert to Org Metadata'){
-                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:source:convert -r force-app -d build/force-app-prod-1"
+                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:source:convert -r force-app -d build/force-app-prod-ver"
                 if (rc != 0) {
                     error 'Convert Source Code to Org Metadata failed'
                 }
