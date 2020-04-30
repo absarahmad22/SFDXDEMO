@@ -38,6 +38,8 @@ node {
 	print "BUILD_QA ::::${BUILD_QA}";
 	
 	
+	print "ENV Build Number ::: ${env.BUILD_NUMBER}";
+	
 
     // -------------------------------------------------------------------------
     // Check out code from source control.
