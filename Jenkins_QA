@@ -60,7 +60,7 @@ node {
 			
 			
 			 stage('Convert to Org Metadata'){
-                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:source:convert -r force-app -d build/force-app"
+                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:source:convert -r force-app -d build/force-app-prod-1"
                 if (rc != 0) {
                     error 'Convert Source Code to Org Metadata failed'
                 }
