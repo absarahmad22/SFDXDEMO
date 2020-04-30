@@ -4,13 +4,14 @@ import groovy.json.JsonSlurperClassic
 
 node {
 
-    def SF_CONSUMER_KEY=env.SF_CONSUMER_KEY
-    def SF_USERNAME=env.SF_USERNAME
-    def SERVER_KEY_CREDENTALS_ID=env.SERVER_KEY_CREDENTALS_ID
+
+    def SF_CONSUMER_KEY=env.SF_CONSUMER_KEY_QA
+    def SF_USERNAME=env.SF_USERNAME_QA
+    def SERVER_KEY_CREDENTALS_ID=env.SERVER_KEY_CREDENTALS_ID_QA
     def TEST_LEVEL='RunLocalTests'
     def PACKAGE_NAME='0Ho1U000000CaUzSAK'
     def PACKAGE_VERSION
-    def SF_INSTANCE_URL = env.SF_INSTANCE_URL ?: "https://login.salesforce.com"
+    def SF_INSTANCE_URL = env.SF_INSTANCE_URL_QA ?: "https://login.salesforce.com"
 
     def toolbelt = tool 'toolbelt'
         
@@ -44,7 +45,7 @@ node {
 	
 	def build_directory = "build/force-app_v_${env.BUILD_NUMBER}";
 		
-	println "print QA below"
+	println "print QA Live"
 
 	println env.SF_CONSUMER_KEY_LIVE;
 	println env.SF_USERNAME_LIVE;
