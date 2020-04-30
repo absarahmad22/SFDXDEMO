@@ -24,9 +24,9 @@ node {
 	
 	println "FROM GLOBAL VARIABLE";
 	
-	println "Consumer Key ${evn.SF_CONSUMER_KEY_QA}";
-	println "SF_USERNAME ${evn.SF_USERNAME_QA}";
-	println "SERVER_KEY_CREDENTALS_ID ${evn.SERVER_KEY_CREDENTALS_ID_QA}";
+	println "Consumer Key evn.SF_CONSUMER_KEY_QA}";
+	println "SF_USERNAME evn.SF_USERNAME_QA";
+	println "SERVER_KEY_CREDENTALS_ID evn.SERVER_KEY_CREDENTALS_ID_QA";
 	
 
     // -------------------------------------------------------------------------
