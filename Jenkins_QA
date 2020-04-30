@@ -47,7 +47,7 @@ node {
 
 			stage('Authorize DevHub') {
 
-                rc = bat returnStatus: true, script: "\"${toolbelt}\" force:org:list"
+               // rc = bat returnStatus: true, script: "\"${toolbelt}\" force:org:list"
 
                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:auth:logout -u ${SF_USERNAME} -p"
 
@@ -56,6 +56,14 @@ node {
                     error 'Salesforce dev hub org authorization failed.'
                 }
                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:org:list"
+            }
+			
+			
+			 stage('Convert to Org Metadata'){
+                 rc = bat returnStatus: true, script: "\"${toolbelt}\" force:source:convert -r force-app -d import/force-app"
+                if (rc != 0) {
+                    error 'Convert Source Code to Org Metadata failed'
+                }
             }
 
 
