@@ -43,7 +43,29 @@ node {
 	print "ENV BUILD_TAG ::: ${env.BUILD_TAG}";
 	
 	def build_version = env.BUILD_NUMBER;
-	
+		
+	println "print QA below"
+
+	println env.SF_CONSUMER_KEY_LIVE;
+	println env.SF_USERNAME_LIVE;
+	println env.SERVER_KEY_CREDENTALS_ID_LIVE;
+	println env.SF_INSTANCE_URL_LIVE;
+
+
+	println "print now stage below"
+
+	println env.SF_CONSUMER_KEY_STAGE;
+	println env.SF_USERNAME_STAGE;
+	println env.SERVER_KEY_CREDENTALS_ID_STAGE;
+	println env.SF_INSTANCE_URL_STAGE;
+
+	println "print QA below"
+
+	println env.SF_CONSUMER_KEY_QA;
+	println env.SF_USERNAME_QA;
+	println env.SERVER_KEY_CREDENTALS_ID_QA;
+	println env.SF_INSTANCE_URL_QA;
+		
 
     // -------------------------------------------------------------------------
     // Check out code from source control.
