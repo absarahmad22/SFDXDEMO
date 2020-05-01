@@ -1,0 +1,89 @@
+pipeline {
+    agent any
+    parameters {
+        string(name: 'Build', defaultValue: '0', description: 'Build Number to rollback')
+        choice(name: 'Environment', choices: ['QA', 'Stage', 'Live'], description: 'Select Environment')
+    }
+    stages {
+        stage('Example') {
+            steps {
+                echo "${params.Greeting} World!"
+                echo "${params.Environment}"
+            }
+        }
+    }
+}
+
+pipeline {
+    agent any
+    parameters {
+        string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+
+        text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
+
+        booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value')
+
+        choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something')
+
+        password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
+    }
+    stages {
+        stage('Example') {
+            steps {
+                echo "Hello ${params.PERSON}"
+
+                echo "Biography: ${params.BIOGRAPHY}"
+
+                echo "Toggle: ${params.TOGGLE}"
+
+                echo "Choice: ${params.CHOICE}"
+
+                echo "Password: ${params.PASSWORD}"
+            }
+        }
+    }
+}
+
+
+def toolbelt = tool 'toolbelt';
+
+pipeline {
+    agent any
+    parameters {
+        string(name: 'Build', defaultValue: '0', description: 'Build to rollback')
+        choice(name: 'Environment', choices: ['QA', 'Stage', 'Live'], description: 'Select Environment')
+    }
+    stages {
+        stage ('QA') {
+            when {
+                expression { params.Environment == 'QA' }
+            }
+            steps {
+                echo "Hello, QA!";
+                echo "Hello ${env.SF_CONSUMER_KEY_QA}";
+                echo workspace;
+                echo JOB_NAME;
+                echo "${env.parent_dir}"
+
+            }
+        }
+
+        stage ('Stage') {
+            when {
+                expression { params.Environment == 'Stage' }
+            }
+            steps {
+                echo "Hello, Stage!"
+            }
+        }
+
+        stage ('Live') {
+            when {
+                expression { params.Environment == 'Live' }
+            }
+            steps {
+                echo "Hello, Live!"
+            }
+        }
+    }
+}
