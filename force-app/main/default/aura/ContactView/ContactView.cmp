@@ -47,16 +47,16 @@
                         <div class="slds-truncate" title="{!con.Phone}">{!con.Phone}</div>
                     </td>
 					 <td data-label="Mobile">
-                        <div class="slds-truncate" title="{!con.Mobile}">{!con.Mobile}</div>
+                        <div class="slds-truncate" title="{!con.MobilePhone}">{!con.Mobile}</div>
                     </td>
                     <td data-label="Email">
                         <div class="slds-truncate" title="{!con.Email}">{!con.Email}</div>
                     </td>
 					<td data-label="Language">
-                        <div class="slds-truncate" title="{!con.Language}">{!con.Language}</div>
+                        <div class="slds-truncate" title="{!con.Language__c}">{!con.Language__c}</div>
                     </td>
                     <td data-label="Level">
-                        <div class="slds-truncate" title="{!con.Level}">{!con.Level}</div>
+                        <div class="slds-truncate" title="{!con.Level__c}">{!con.Level__c}</div>
                     </td>
                 </tr>
             </aura:iteration>
