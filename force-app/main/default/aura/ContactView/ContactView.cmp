@@ -8,9 +8,6 @@
                 <th class="" scope="col">
                     <div class="slds-truncate" title="Name">Name</div>
                 </th>
-				 <th class="" scope="col">
-                    <div class="slds-truncate" title="Account Name">Account Name</div>
-                </th>
                 <th class="" scope="col">
                     <div class="slds-truncate" title="Title">Title</div>
                 </th>
@@ -23,12 +20,6 @@
                 <th class="" scope="col">
                     <div class="slds-truncate" title="Email">Email</div>
                 </th>
-				<th class="" scope="col">
-                    <div class="slds-truncate" title="Language">Language</div>
-                </th>
-				<th class="" scope="col">
-                    <div class="slds-truncate" title="Level">Level</div>
-                </th>
             </tr>
         </thead>
         <tbody>
@@ -36,9 +27,6 @@
                 <tr class="slds-hint-parent">
                     <td data-label="Name">
                         <div class="slds-truncate" title="{!con.Name}">{!con.Name}</div>
-                    </td>
-					 <td data-label="Account Name">
-                        <div class="slds-truncate" title="{!con.Account.Name}">{!con.Account.Name}</div>
                     </td>
                     <td data-label="Title">
                         <div class="slds-truncate" title="{!con.Title}">{!con.Title}</div>
@@ -51,12 +39,6 @@
                     </td>
                     <td data-label="Email">
                         <div class="slds-truncate" title="{!con.Email}">{!con.Email}</div>
-                    </td>
-					<td data-label="Language">
-                        <div class="slds-truncate" title="{!con.Language__c}">{!con.Language__c}</div>
-                    </td>
-                    <td data-label="Level">
-                        <div class="slds-truncate" title="{!con.Level__c}">{!con.Level__c}</div>
                     </td>
                 </tr>
             </aura:iteration>
