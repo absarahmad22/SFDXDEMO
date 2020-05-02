@@ -81,7 +81,7 @@ node {
                     if(response.status != 0){
                         error 'Salesforce test scratch org creation failed.'
                     }
-                    rc = command "\"${toolbelt}\" force:user:password:generate -u ${response.result.username} --json";
+                    rc = command "\"${toolbelt}\" force:user:password:generate -u ${response.result.username}  ";
                     response = commandOutput "\"${toolbelt}\" force:user:display -u ${response.result.username} --json";
                     if(response.status != 0){
                         error 'Salesforce test scratch org creation failed.'
@@ -94,6 +94,9 @@ node {
                 }
             }else{
                 //Use the existing Scratch Org and display login URL UserName and Password at the end so user can able to check it out.
+                if(dev_org.password == null){
+                     rc = command "\"${toolbelt}\" force:user:password:generate -u ${dev_org.alias}  ";
+                }
                 response = commandOutput "\"${toolbelt}\" force:user:display -u scratch_org_dev --json";
                 username = response.result.username;
                 password = response.result.password;
