@@ -56,10 +56,9 @@ node {
             */
             
 
-
+			def dev_org;
             if(response.status == 0 && response.result.scratchOrgs.size() > 0){
                 def orgs = response.result.scratchOrgs;
-                def dev_org;
                 for (def j = 0 ; j < orgs.size() ; j++) {
                     if(orgs[j].alias != null && orgs[j].alias == 'scratch_org_dev' && orgs[j].isExpired != true){
                         dev_org = orgs[j];
