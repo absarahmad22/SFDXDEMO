@@ -28,15 +28,13 @@ node {
         checkout scm
     }
 
-
+    def response;
 	
 	withEnv(["HOME=${env.WORKSPACE}"]) {
 		
 		withCredentials([file(credentialsId: SERVER_KEY_CREDENTALS_ID, variable: 'jwt_key_file')]) {
             
             /*Step-1: Authorize DevHub Org*/
-
-            def response;
 
 			stage('Authorize DevHub') {
 
@@ -49,8 +47,15 @@ node {
                 response = commandOutput "\"${toolbelt}\" force:org:list --json"
 
             }
+        }
+    }
 
-            /*
+
+    /* For Scratch Org*/
+    withEnv(["HOME=${env.WORKSPACE}"]) {
+            
+        withCredentials([file(credentialsId: SERVER_KEY_CREDENTALS_ID, variable: 'jwt_key_file')]) {
+                        /*
             * We are creating scratch org with the name scratch_org_dev
             * if this been exist utilize this one or create a fresh scratch org for the specified day.
             */
@@ -73,6 +78,14 @@ node {
             def insurl;
 
             println "scratch org dev org : ${dev_org}";
+            if(dev_org != null){
+                stage('Delete Old Scratch Org') {
+                    rc = command "\"${toolbelt}\" force:org:delete --targetusername scratch_org_dev --noprompt"
+                    if (rc != 0) {
+                        error 'Unable to delete the Scratch Org.'
+                    }
+                }
+            }
 
             if(dev_org == null){
                 //create a Scratch Org
@@ -136,11 +149,8 @@ node {
                     error 'Unable to delete the Scratch Org.'
                 }
             }*/
-
-			
-			
-		}
-	}
+        }
+    }
 }
 
 def command(script) {
