@@ -119,6 +119,23 @@ node {
             }
 
 
+
+
+            def USER_INPUT = input(
+                    message: 'User input required - Want to Deploy Code In Scratch Org?',
+                    parameters: [
+                            [$class: 'ChoiceParameterDefinition',
+                             choices: ['no','yes'].join('\n'),
+                             name: 'input',
+                             description: 'Please Select']
+                    ]
+            );
+
+
+            println USER_INPUT;
+
+
+
             /*Stage 3 Push Source Code to Scratch Org*/
             stage('Push To Test Scratch Org') {
                 rc = command "\"${toolbelt}\" force:source:push --targetusername scratch_org_dev"
