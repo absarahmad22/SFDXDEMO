@@ -46,6 +46,8 @@ node {
                 }
                 response = commandOutput "\"${toolbelt}\" force:org:list --json"
 
+                rc = command "\"${toolbelt}\" force:org:list"
+
             }
      //   }
   //  }
