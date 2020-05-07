@@ -127,7 +127,7 @@ node {
                             [$class: 'ChoiceParameterDefinition',
                              choices: ['no','yes'].join('\n'),
                              name: 'input',
-                             description: 'Please Select']
+                             description: 'Want to Deploy Code In Scratch Org?']
                     ]
             );
 
