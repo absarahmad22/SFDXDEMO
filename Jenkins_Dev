@@ -47,14 +47,14 @@ node {
                 response = commandOutput "\"${toolbelt}\" force:org:list --json"
 
             }
-        }
-    }
+     //   }
+  //  }
 
 
     /* For Scratch Org*/
-    withEnv(["HOME=${env.WORKSPACE}"]) {
+ //   withEnv(["HOME=${env.WORKSPACE}"]) {
             
-        withCredentials([file(credentialsId: SERVER_KEY_CREDENTALS_ID, variable: 'jwt_key_file')]) {
+    //    withCredentials([file(credentialsId: SERVER_KEY_CREDENTALS_ID, variable: 'jwt_key_file')]) {
                         /*
             * We are creating scratch org with the name scratch_org_dev
             * if this been exist utilize this one or create a fresh scratch org for the specified day.
@@ -78,7 +78,7 @@ node {
             def insurl;
 
             println "scratch org dev org : ${dev_org}";
-            if(dev_org != null){
+           /* if(dev_org != null){
                 stage('Delete Old Scratch Org') {
                     rc = command "\"${toolbelt}\" force:org:delete --targetusername scratch_org_dev --noprompt"
                     if (rc != 0) {
@@ -86,7 +86,7 @@ node {
                     }
                 }
                 dev_org = null;
-            }
+            } */
 
             if(dev_org == null){
                 //create a Scratch Org
