@@ -149,6 +149,8 @@ node {
                         }
                     }
 
+                    rc = command "\"${toolbelt}\" force:org:list --json";
+
                     /*Stage 3 Push Source Code to Scratch Org*/
                     stage('Push To Test Scratch Org') {
                         rc = command "\"${toolbelt}\" force:source:push --targetusername scratch_org_dev"
