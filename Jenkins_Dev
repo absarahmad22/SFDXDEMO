@@ -120,16 +120,6 @@ node {
                 password = response.result.password;
                 loginURL = response.result.loginUrl;
                 insurl   = response.result.instanceUrl;
-                println "isLatestCreated scratch org :${isLatestCreated}";
-                withCredentials([file(credentialsId: SERVER_KEY_CREDENTALS_ID, variable: 'jwt_key_file_scratch')]) {
-                    if (isLatestCreated == false) {
-                        //rc = command "\"${toolbelt}\" force:auth:logout -u scratch_org_dev -p"
-                        rc = command "\"${toolbelt}\" force:auth:jwt:grant --instanceurl \"${loginURL}\" --clientid ${SF_CONSUMER_KEY} --username \"${username}\" --jwtkeyfile \"${jwt_key_file_scratch}\" --setalias scratch_org_dev";
-                        if (rc != 0) {
-                            error 'Salesforce scratch org authorization failed.'
-                        }
-                    }
-                }
             }
 
 
@@ -148,30 +138,43 @@ node {
 
             println USER_INPUT;
 
+            if(USER_INPUT == 'yes'){
+                println "isLatestCreated scratch org :${isLatestCreated}";
+                withCredentials([file(credentialsId: SERVER_KEY_CREDENTALS_ID, variable: 'jwt_key_file_scratch')]) {
+                    if (isLatestCreated == false) {
+                        //rc = command "\"${toolbelt}\" force:auth:logout -u scratch_org_dev -p"
+                        rc = command "\"${toolbelt}\" force:auth:jwt:grant --instanceurl \"${loginURL}\" --clientid ${SF_CONSUMER_KEY} --username \"${username}\" --jwtkeyfile \"${jwt_key_file_scratch }\" --setalias scratch_org_dev";
+                        if (rc != 0) {
+                            error 'Salesforce scratch org authorization failed.'
+                        }
+                    }
+
+                    /*Stage 3 Push Source Code to Scratch Org*/
+                    stage('Push To Test Scratch Org') {
+                        rc = command "\"${toolbelt}\" force:source:push --targetusername scratch_org_dev"
+                        if (rc != 0) {
+                            error 'Salesforce push to test scratch org failed.'
+                        }
+                    }
 
 
-            /*Stage 3 Push Source Code to Scratch Org*/
-            stage('Push To Test Scratch Org') {
-                rc = command "\"${toolbelt}\" force:source:push --targetusername scratch_org_dev"
-                if (rc != 0) {
-                    error 'Salesforce push to test scratch org failed.'
+                    /*Stage 4 Run Unit Testing Scratch Org*/
+
+                    stage('Run Tests In Test Scratch Org') {
+                        rc = command "\"${toolbelt}\" force:apex:test:run --targetusername scratch_org_dev --wait 10 -r human --resultformat tap --codecoverage --testlevel ${TEST_LEVEL}"
+                        if (rc != 0) {
+                            error 'Salesforce unit test run in test scratch org failed.'
+                        }
+                    }
+
+                    println "scratch org username     : ${username}";
+                    println "scratch org password     : ${password}";
+                    println "scratch org loginURL     : ${loginURL}";
+                    println "scratch org instanceUrl  : ${insurl}";
                 }
             }
 
 
-            /*Stage 4 Run Unit Testing Scratch Org*/
-
-            stage('Run Tests In Test Scratch Org') {
-                rc = command "\"${toolbelt}\" force:apex:test:run --targetusername scratch_org_dev --wait 10 -r human --resultformat tap --codecoverage --testlevel ${TEST_LEVEL}"
-                if (rc != 0) {
-                    error 'Salesforce unit test run in test scratch org failed.'
-                }
-            }
-
-            println "scratch org username     : ${username}";
-            println "scratch org password     : ${password}";
-            println "scratch org loginURL     : ${loginURL}";
-            println "scratch org instanceUrl  : ${insurl}";
 			
             /*Stage 5 Delete Scratch Org
 
