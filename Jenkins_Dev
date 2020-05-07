@@ -131,8 +131,8 @@ node {
                     message: 'User input required - Want to Deploy Code In Scratch Org?',
                     parameters: [
                             [$class: 'ChoiceParameterDefinition',
-                             choices: ['no','yes'].join('\n'),
-                             name: 'input',
+                             choices: ['No','Yes'].join('\n'),
+                             name: 'Want to Deploy ',
                              description: 'Want to Deploy Code In Scratch Org?']
                     ]
             );
@@ -140,7 +140,7 @@ node {
 
             println USER_INPUT;
 
-            if(USER_INPUT == 'yes'){
+            if(USER_INPUT == 'Yes'){
                 println "isLatestCreated scratch org :${isLatestCreated}";
                 withCredentials([file(credentialsId: SERVER_KEY_CREDENTALS_ID, variable: 'jwt_key_file_scratch')]) {
                     if (isLatestCreated == false) {
