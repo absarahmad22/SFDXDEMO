@@ -98,13 +98,16 @@ node {
 
             if(dev_org == null){
                 //read the file and authenticate
+                println FILENAME;
                 File f = new File(FILENAME);
-                def lines = f.readLines();
-                if(lines.size() > 0){
-                    def authcmd  = lines[lines.size() - 1].split(',')[0];
-                    println authcmd;
+                if(f.exists()){
+                    def lines = f.readLines();
+                    if(lines.size() > 0){
+                        def authcmd  = lines[lines.size() - 1].split(',')[0];
+                        println authcmd;
 
-                    rc command "\"${toolbelt}\" ${authcmd}";
+                        rc = command "\"${toolbelt}\" ${authcmd}";
+                    }
                 }
             }
 
