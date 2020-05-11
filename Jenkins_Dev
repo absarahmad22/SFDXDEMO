@@ -103,7 +103,7 @@ node {
                 if(f.exists()){
                     def lines = f.readLines();
                     if(lines.size() > 0){
-                        def authcmd  = lines[lines.size() - 1].split(',')[1];
+                        def authcmd  = lines[lines.size() - 1].split(',')[2];
                         println authcmd;
 
                         rc = command "\"${toolbelt}\" ${authcmd}";
