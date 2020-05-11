@@ -101,7 +101,7 @@ node {
                 File f = new File(FILENAME);
                 def lines = f.readLines();
                 if(lines.size() > 0){
-                    def authcmd  = lines[lines.size() - 1].split(,)[0];
+                    def authcmd  = lines[lines.size() - 1].split(',')[0];
                     println authcmd;
 
                     rc command "\"${toolbelt}\" ${authcmd}";
