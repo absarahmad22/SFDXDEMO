@@ -104,18 +104,16 @@ node {
                     def lines = f.readLines();
                     if(lines.size() > 0){
                         def authcmd  = lines[lines.size() - 1].split(',')[2];
-                        println authcmd;
+
+
+                        authcmd = "${authcmd} --clientid ${SF_CONSUMER_KEY} --jwtkeyfile \"${jwt_key_file}\"";
+
+                                                println authcmd;
 
                         rc = command "\"${toolbelt}\" ${authcmd}";
                     }
                 }
             }
-
-
-
-
-
-
 
             // if(dev_org == null){
             //     //create a Scratch Org
