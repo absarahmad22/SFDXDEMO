@@ -38,7 +38,7 @@ node {
 
 			stage('Authorize DevHub') {
 
-                rc = command "\"${toolbelt}\" force:auth:logout -u ${SF_USERNAME} -p"
+               // rc = command "\"${toolbelt}\" force:auth:logout -u ${SF_USERNAME} -p"
 
                 rc = command "\"${toolbelt}\" force:auth:jwt:grant --instanceurl ${SF_INSTANCE_URL} --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${jwt_key_file}\" --setdefaultdevhubusername --setalias DevHubOrg";
                 if (rc != 0) {
@@ -46,7 +46,7 @@ node {
                 }
                 response = commandOutput "\"${toolbelt}\" force:org:list --json"
 
-                rc = command "\"${toolbelt}\" force:org:list"
+               // rc = command "\"${toolbelt}\" force:org:list"
 
             }
      //   }
@@ -130,15 +130,16 @@ node {
 
 
 
-            def USER_INPUT = input(
-                    message: 'User input required - Want to Deploy Code In Scratch Org?',
-                    parameters: [
-                            [$class: 'ChoiceParameterDefinition',
-                             choices: ['No','Yes'].join('\n'),
-                             name: 'Want to Deploy ',
-                             description: 'Want to Deploy Code In Scratch Org?']
-                    ]
-            );
+            def USER_INPUT = 'Yes'
+            //  input(
+            //         message: 'User input required - Want to Deploy Code In Scratch Org?',
+            //         parameters: [
+            //                 [$class: 'ChoiceParameterDefinition',
+            //                  choices: ['No','Yes'].join('\n'),
+            //                  name: 'Want to Deploy ',
+            //                  description: 'Want to Deploy Code In Scratch Org?']
+            //         ]
+            // );
 
 
             println USER_INPUT;
@@ -149,6 +150,7 @@ node {
                     if (isLatestCreated == false) {
                         //rc = command "\"${toolbelt}\" force:auth:logout -u scratch_org_dev -p"
                         def FILENAME = filename = "${env.JENKINS_HOME}\\ScratchCred.text";
+                        println FILENAME;
                         File f = new File(FILENAME);
                         if(f.exists() == false){
                             f.write(""); //file created
