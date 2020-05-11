@@ -78,6 +78,7 @@ node {
             def password;
             def loginURL;
             def insurl;
+            def expireDate;
 
             println "scratch org dev org : ${dev_org}";
            /* if(dev_org != null){
@@ -109,6 +110,7 @@ node {
                     password = response.result.password;
                     loginURL = response.result.loginUrl;
                     insurl   = response.result.instanceUrl;
+                    expireDate   = response.result.expirationDate;
                     isLatestCreated = false;
                     response = null;
                 }
@@ -122,6 +124,7 @@ node {
                 password = response.result.password;
                 loginURL = response.result.loginUrl;
                 insurl   = response.result.instanceUrl;
+                expireDate   = response.result.expirationDate;
             }
 
 
@@ -145,7 +148,21 @@ node {
                 withCredentials([file(credentialsId: SERVER_KEY_CREDENTALS_ID, variable: 'jwt_key_file_scratch')]) {
                     if (isLatestCreated == false) {
                         //rc = command "\"${toolbelt}\" force:auth:logout -u scratch_org_dev -p"
-                        rc = command "\"${toolbelt}\" force:auth:jwt:grant --instanceurl \"${loginURL}\" --clientid ${SF_CONSUMER_KEY} --username \"${username}\" --jwtkeyfile \"${jwt_key_file_scratch }\" --setalias scratch_org_dev";
+                        def FILENAME = filename = "${env.JENKINS_HOME}\\ScratchCred.text";
+                        File f = new File(FILENAME);
+                        if(f.exists() == false){
+                            f.write(""); //file created
+                        }
+
+                        def cmdstr = "force:auth:jwt:grant --instanceurl \"${loginURL}\" --clientid ${SF_CONSUMER_KEY} --username \"${username}\" --jwtkeyfile \"${jwt_key_file_scratch }\" --setalias scratch_org_dev";
+
+                        f.append("scratch_org_dev,${expireDate},${cmdstr}");
+
+                        println 'file appended successfully!';
+
+                        rc = command "\"${toolbelt}\" force:auth:logout -u scratch_org_dev -p"
+
+                        rc = command "\"${toolbelt}\" ${cmdstr}"; 
                         if (rc != 0) {
                             error 'Salesforce scratch org authorization failed.'
                         }
