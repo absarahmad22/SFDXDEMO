@@ -5,15 +5,15 @@ import groovy.json.JsonSlurperClassic
 node {
 
 
-    def SF_CONSUMER_KEY          = "3MVG97quAmFZJfVzfedLY.zgYh_Yrp8MdbXs9.BDkKlhP9.2klfm00TCOcu.Fk7zmfucTFRxj0qyUc3XbF3PB";         
-    def SF_USERNAME              = "mydevcopy@gmail.com";           
-    def SERVER_KEY_CREDENTALS_ID = "6c8daa18-bf91-4083-9f4e-459b1c98f0d0";
-    def SF_INSTANCE_URL          = "https://login.salesforce.com";        
+    def SF_CONSUMER_KEY          = env.SF_CONSUMER_KEY_DEV//"3MVG97quAmFZJfVzfedLY.zgYh_Yrp8MdbXs9.BDkKlhP9.2klfm00TCOcu.Fk7zmfucTFRxj0qyUc3XbF3PB";         
+    def SF_USERNAME              = env.SF_USERNAME_DEV//"mydevcopy@gmail.com";           
+    def SERVER_KEY_CREDENTALS_ID = env.SERVER_KEY_CREDENTALS_ID_DEV//"6c8daa18-bf91-4083-9f4e-459b1c98f0d0";
+    def SF_INSTANCE_URL          = env.SF_INSTANCE_URL_DEV ?: "https://login.salesforce.com"//"https://login.salesforce.com";        
     def TEST_LEVEL='RunLocalTests'
 
     def toolbelt = tool 'toolbelt'
 
-    def FILENAME = "${env.JENKINS_HOME}\\ScratchCred.txt";
+  //  def FILENAME = "${env.JENKINS_HOME}\\ScratchCred.txt";
         
     println "printing information of env variable";
 	print "SF_CONSUMER_KEY :${SF_CONSUMER_KEY}";
@@ -65,7 +65,7 @@ node {
             */
             
 
-			def dev_org;
+/*			def dev_org;
             if(response.status == 0 && response.result.scratchOrgs.size() > 0){
                 def orgs = response.result.scratchOrgs;
                 for (def j = 0 ; j < orgs.size() ; j++) {
@@ -82,7 +82,7 @@ node {
             def insurl;
             def expireDate;
 
-            println "scratch org dev org : ${dev_org}";
+            println "scratch org dev org : ${dev_org}";*/
            /* if(dev_org != null){
                 stage('Delete Old Scratch Org') {
                     rc = command "\"${toolbelt}\" force:org:delete --targetusername scratch_org_dev --noprompt"
@@ -93,7 +93,7 @@ node {
                 dev_org = null;
             } */
 
-            def isLatestCreated = false;
+       /*     def isLatestCreated = false;
 
 
             if(dev_org == null){
@@ -151,7 +151,7 @@ node {
 
 
 
-            def USER_INPUT = 'Yes'
+            def USER_INPUT = 'Yes'  */
             //  input(
             //         message: 'User input required - Want to Deploy Code In Scratch Org?',
             //         parameters: [
@@ -163,7 +163,7 @@ node {
             // );
 
 
-            println USER_INPUT;
+       /*     println USER_INPUT;
 
             if(USER_INPUT == 'Yes'){
                 println "isLatestCreated scratch org :${isLatestCreated}";
@@ -190,20 +190,20 @@ node {
                     //     }
                     // }
 
-                    rc = command "\"${toolbelt}\" force:org:list --json";
+                    rc = command "\"${toolbelt}\" force:org:list --json"; */
 
                     /*Stage 3 Push Source Code to Scratch Org*/
-                    stage('Push To Test Scratch Org') {
+        /*            stage('Push To Test Scratch Org') {
                         rc = command "\"${toolbelt}\" force:source:push --targetusername scratch_org_dev"
                         if (rc != 0) {
                             error 'Salesforce push to test scratch org failed.'
                         }
-                    }
+                    } */
 
 
                     /*Stage 4 Run Unit Testing Scratch Org*/
 
-                    stage('Run Tests In Test Scratch Org') {
+          /*          stage('Run Tests In Test Scratch Org') {
                         rc = command "\"${toolbelt}\" force:apex:test:run --targetusername scratch_org_dev --wait 10 -r human --resultformat tap --codecoverage --testlevel ${TEST_LEVEL}"
                         if (rc != 0) {
                             error 'Salesforce unit test run in test scratch org failed.'
@@ -216,7 +216,7 @@ node {
                     println "scratch org instanceUrl  : ${insurl}";
                 }
             }
-
+*/
 
 			
             /*Stage 5 Delete Scratch Org
