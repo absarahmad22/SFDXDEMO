@@ -1,0 +1,255 @@
+#!groovy
+
+import groovy.json.JsonSlurperClassic
+
+node {
+
+
+    def SF_CONSUMER_KEY          = env.SF_CONSUMER_KEY_CICD_DEV
+    def SF_USERNAME              = env.SF_USERNAME_CICD_DEV        
+    def SERVER_KEY_CREDENTALS_ID = env.SERVER_KEY_CREDENTALS_ID_CICD_DEV
+    def SF_INSTANCE_URL          = env.SF_INSTANCE_URL_CICD_DEV ?: "https://login.salesforce.com"
+    def TEST_LEVEL='RunLocalTests'
+
+    def toolbelt = tool 'toolbelt'
+        
+    println "printing information of env variable";
+	print "SF_CONSUMER_KEY :${SF_CONSUMER_KEY}";
+	print "SF_USERNAME :${SF_USERNAME}";
+	print "SERVER_KEY_CREDENTALS_ID :${SERVER_KEY_CREDENTALS_ID}";
+	print "TEST_LEVEL :${TEST_LEVEL}";
+	print "SF_INSTANCE_URL :${SF_INSTANCE_URL}";
+
+    // -------------------------------------------------------------------------
+    // Check out code from source control.
+    // -------------------------------------------------------------------------
+
+    stage('checkout source') {
+        checkout scm
+    }
+
+    def response;
+	
+	withEnv(["HOME=${env.WORKSPACE}"]) {
+		
+		withCredentials([file(credentialsId: SERVER_KEY_CREDENTALS_ID, variable: 'jwt_key_file')]) {
+            
+            /*Step-1: Authorize DevHub Org*/
+
+			stage('Authorize DevHub') {
+
+               // rc = command "\"${toolbelt}\" force:auth:logout -u ${SF_USERNAME} -p"
+
+                rc = command "\"${toolbelt}\" force:auth:jwt:grant --instanceurl ${SF_INSTANCE_URL} --clientid ${SF_CONSUMER_KEY} --username ${SF_USERNAME} --jwtkeyfile \"${jwt_key_file}\" --setdefaultdevhubusername --setalias DevHubOrg";
+                if (rc != 0) {
+                    error 'Salesforce dev hub org authorization failed.'
+                }
+                response = commandOutput "\"${toolbelt}\" force:org:list --json"
+
+               // rc = command "\"${toolbelt}\" force:org:list"
+
+            }
+     //   }
+  //  }
+
+
+    /* For Scratch Org*/
+ //   withEnv(["HOME=${env.WORKSPACE}"]) {
+            
+    //    withCredentials([file(credentialsId: SERVER_KEY_CREDENTALS_ID, variable: 'jwt_key_file')]) {
+                        /*
+            * We are creating scratch org with the name scratch_org_dev
+            * if this been exist utilize this one or create a fresh scratch org for the specified day.
+            */
+            
+
+/*			def dev_org;
+            if(response.status == 0 && response.result.scratchOrgs.size() > 0){
+                def orgs = response.result.scratchOrgs;
+                for (def j = 0 ; j < orgs.size() ; j++) {
+                    if(orgs[j].alias != null && orgs[j].alias == 'scratch_org_dev' && orgs[j].isExpired != true){
+                        dev_org = orgs[j];
+                        break;
+                    }
+                }
+            }
+            response = null;
+            def username;
+            def password;
+            def loginURL;
+            def insurl;
+            def expireDate;
+
+            println "scratch org dev org : ${dev_org}";*/
+           /* if(dev_org != null){
+                stage('Delete Old Scratch Org') {
+                    rc = command "\"${toolbelt}\" force:org:delete --targetusername scratch_org_dev --noprompt"
+                    if (rc != 0) {
+                        error 'Unable to delete the Scratch Org.'
+                    }
+                }
+                dev_org = null;
+            } */
+
+       /*     def isLatestCreated = false;
+
+
+            if(dev_org == null){
+                //read the file and authenticate
+                println FILENAME;
+                File f = new File(FILENAME);
+                if(f.exists()){
+                    def lines = f.readLines();
+                    if(lines.size() > 0){
+                        def authcmd  = lines[lines.size() - 1].split(',')[2];
+
+
+                        authcmd = "${authcmd} --clientid ${SF_CONSUMER_KEY} --jwtkeyfile \"${jwt_key_file}\"";
+
+                                                println authcmd;
+
+                        rc = command "\"${toolbelt}\" ${authcmd}";
+                    }
+                }
+            }
+
+            if(dev_org == null){
+                //create a Scratch Org
+                stage('Create Test Scratch Org') {
+                    response = commandOutput "\"${toolbelt}\" force:org:create --targetdevhubusername DevHubOrg --setdefaultusername --definitionfile config/project-scratch-def.json --setalias scratch_org_dev --wait 10 --durationdays 3 --json"
+                    if(response.status != 0){
+                        error 'Salesforce test scratch org creation failed.'
+                    }
+                    rc = command "\"${toolbelt}\" force:user:password:generate -u ${response.result.username}  ";
+                    response = commandOutput "\"${toolbelt}\" force:user:display -u ${response.result.username} --json";
+                    if(response.status != 0){
+                        error 'Salesforce test scratch org creation failed.'
+                    }
+                    username = response.result.username;
+                    password = response.result.password;
+                    loginURL = response.result.loginUrl;
+                    insurl   = response.result.instanceUrl;
+                    expireDate   = response.result.expirationDate;
+                    isLatestCreated = false;
+                    response = null;
+                }
+            }else{
+                //Use the existing Scratch Org and display login URL UserName and Password at the end so user can able to check it out.
+                if(dev_org.password == null){
+                     rc = command "\"${toolbelt}\" force:user:password:generate -u ${dev_org.alias}  ";
+                }
+                response = commandOutput "\"${toolbelt}\" force:user:display -u scratch_org_dev --json";
+                username = response.result.username;
+                password = response.result.password;
+                loginURL = response.result.loginUrl;
+                insurl   = response.result.instanceUrl;
+                expireDate   = response.result.expirationDate;
+            }
+
+
+
+
+            def USER_INPUT = 'Yes'  */
+            //  input(
+            //         message: 'User input required - Want to Deploy Code In Scratch Org?',
+            //         parameters: [
+            //                 [$class: 'ChoiceParameterDefinition',
+            //                  choices: ['No','Yes'].join('\n'),
+            //                  name: 'Want to Deploy ',
+            //                  description: 'Want to Deploy Code In Scratch Org?']
+            //         ]
+            // );
+
+
+       /*     println USER_INPUT;
+
+            if(USER_INPUT == 'Yes'){
+                println "isLatestCreated scratch org :${isLatestCreated}";
+                withCredentials([file(credentialsId: SERVER_KEY_CREDENTALS_ID, variable: 'jwt_key_file_scratch')]) {
+                    // if (isLatestCreated == false) {
+                    //     //rc = command "\"${toolbelt}\" force:auth:logout -u scratch_org_dev -p"
+                    //     println FILENAME;
+                    //     File f = new File(FILENAME);
+                    //     if(f.exists() == false){
+                    //         f.write(""); //file created
+                    //     }
+
+                    //     def cmdstr = "force:auth:jwt:grant --instanceurl \"https://test.salesforce.com\" --clientid ${SF_CONSUMER_KEY} --username \"${username}\" --jwtkeyfile \"${jwt_key_file_scratch }\" --setalias scratch_org_dev";
+
+                    //     f.append("scratch_org_dev,${expireDate},${cmdstr}");
+
+                    //     println 'file appended successfully!';
+
+                    //     rc = command "\"${toolbelt}\" force:auth:logout -u scratch_org_dev -p"
+
+                    //     rc = command "\"${toolbelt}\" ${cmdstr}"; 
+                    //     if (rc != 0) {
+                    //         error 'Salesforce scratch org authorization failed.'
+                    //     }
+                    // }
+
+                    rc = command "\"${toolbelt}\" force:org:list --json"; */
+
+                    /*Stage 3 Push Source Code to Scratch Org*/
+        /*            stage('Push To Test Scratch Org') {
+                        rc = command "\"${toolbelt}\" force:source:push --targetusername scratch_org_dev"
+                        if (rc != 0) {
+                            error 'Salesforce push to test scratch org failed.'
+                        }
+                    } */
+
+
+                    /*Stage 4 Run Unit Testing Scratch Org*/
+
+          /*          stage('Run Tests In Test Scratch Org') {
+                        rc = command "\"${toolbelt}\" force:apex:test:run --targetusername scratch_org_dev --wait 10 -r human --resultformat tap --codecoverage --testlevel ${TEST_LEVEL}"
+                        if (rc != 0) {
+                            error 'Salesforce unit test run in test scratch org failed.'
+                        }
+                    }
+
+                    println "scratch org username     : ${username}";
+                    println "scratch org password     : ${password}";
+                    println "scratch org loginURL     : ${loginURL}";
+                    println "scratch org instanceUrl  : ${insurl}";
+                }
+            }
+*/
+
+			
+            /*Stage 5 Delete Scratch Org
+
+             stage('Delete Test Scratch Org') {
+                rc = command "\"${toolbelt}\" force:org:delete --targetusername scratch_org_dev --noprompt"
+                if (rc != 0) {
+                    error 'Unable to delete the Scratch Org.'
+                }
+            }*/
+        }
+    }
+}
+
+def command(script) {
+    if (isUnix()) {
+        return sh(returnStatus: true, script: script);
+    } else {
+        return bat(returnStatus: true, script: script);
+    }
+}
+
+
+
+def commandOutput(script) {
+    if (isUnix()) {
+        rmsg =  sh(returnStdout: true, script: script);
+    } else {
+        rmsg =  bat(returnStdout: true, script: script);
+        rmsg = rmsg.readLines().drop(1).join(" ");
+    }
+    def index = rmsg.indexOf('--json') + 6;
+    def len   = rmsg.length();
+    def json  = rmsg.substring(index,len);
+    def jsonSlurper = new JsonSlurperClassic();
+    def response = jsonSlurper.parseText(json);
+    return response;
+}
